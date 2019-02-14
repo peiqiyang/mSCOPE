@@ -88,8 +88,40 @@ It runs fluspect_b for different layers to obtain leaf reflectance, transmittanc
 fluspect_mSCOPE is called in the main function mSCOPE.m L249
 
 c. RTMo_m.m 
-It is a replacement of the RTMo.m in SCOPE. Many changes have been made here. 
-RTMo_m.m is called in the main function mSCOPE.m L279    
+It is a replacement of the RTMo.m in SCOPE. 
+RTMo_m.m is called in the main function mSCOPE.m L279 
+ Many changes have been made here
+ 
+ convert scattering and extinction coefficients into thin layer reflectances and transmittances
+ ``` 
+tau_ss = repmat(1-k.*iLAI,nl,1);
+tau_dd = 1-a.*iLAI;
+tau_sd = sf.*iLAI;
+rho_sd = sb.*iLAI;
+rho_dd = sigb.*iLAI;  
+```
+calculation of effective transmittance and reflectance of a layer bounded beneath a surface
+```
+for j=60:-1:1 % from bottom to top. note 61 the background. 1 is the top of canopy.
+Xss(j)      = tau_ss(j);
+dnorm       = 1-rho_dd(j,:).*R_dd(j+1,:);
+Xsd(j,:)    = (tau_sd(j,:)+tau_ss(j).*R_sd(j+1,:).*rho_dd(j,:))./dnorm;
+Xdd(j,:)    = tau_dd(j,:)./dnorm;
+R_sd(j,:)   = rho_sd(j,:)+tau_dd(j,:).*(R_sd(j+1,:).*Xss(j)+R_dd(j+1,:).*Xsd(j,:));
+R_dd(j,:)   = rho_dd(j,:)+tau_dd(j,:).*R_dd(j+1,:).*Xdd(j,:);
+end
+``` 
+fluxes  profiles 
+``` 
+% Eq. 19 in mSCOPE paper
+Es_(1,:)       = Esun_;
+Emin_(1,:)     = Esky_;
+for j=1:60 % from top to bottom
+Es_(j+1,:)    =   Xss(j).*Es_(j,:);
+Emin_(j+1,:)  =   Xsd(j,:).*Es_(j,:)+Xdd(j,:).*Emin_(j,:);
+Eplu_(j,:)    =   R_sd(j,:).*Es_(j,:)+R_dd(j,:).*Emin_(j,:);
+end
+``` 
 
 d. RTMf_m.m
 It is a replacement of the RTMf.m in SCOPE. Many changes have been made here. 
