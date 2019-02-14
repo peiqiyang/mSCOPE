@@ -1,2 +1,0 @@
-# mSCOPE
-mSCOPE Matlab codes

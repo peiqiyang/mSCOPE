@@ -1,0 +1,19 @@
+%% 
+function mly=input_mSCOPE(parameter_file)
+[mlayer]        = xlsread(char(parameter_file),'mSCOPE', '');
+mly.nly         = mlayer(1,1);
+mly.pLAI        = mlayer(2,:);
+mly.pCab        = mlayer(3,:);
+mly.pCca        = mlayer(4,:);
+mly.pCdm        = mlayer(5,:);
+mly.pCw         = mlayer(6,:);
+mly.pCs         = mlayer(7,:);
+mly.pN          = mlayer(8,:);
+totLAI          = sum(mly.pLAI);
+mly.totLAI      = totLAI ; 
+mly.mCab        = (mly.pCab*mly.pLAI')./totLAI;
+mly.mCca        = (mly.pCca*mly.pLAI')./totLAI;
+mly.mCdm        = (mly.pCdm*mly.pLAI')./totLAI;
+mly.mCw         = (mly.pCw*mly.pLAI')./totLAI;
+mly.mCs         = (mly.pCs*mly.pLAI')./totLAI;
+mly.mN          = (mly.pN*mly.pLAI')./totLAI;
