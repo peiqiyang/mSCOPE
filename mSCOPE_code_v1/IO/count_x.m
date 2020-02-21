@@ -1,4 +1,4 @@
-function [vnew]=count(nvars,v,vmax,id)
+function [vnew]=count_x(nvars,v,vmax,id)
 
 % nvars = number of digits
 % v     = current vector of digits
