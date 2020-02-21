@@ -265,7 +265,6 @@ for PS = 2:-1:1
 end 
 piLtot      = piLo1 + piLo2 + piLo3 + piLo4;
 LoF_        = piLtot/pi;  
-Fhem_       = Fplu_; 
 rad.LoF_    = LoF_(:,1)  + LoF_(:,2); 
 rad.LoF1_   = LoF_(:,1);
 rad.LoF2_   = LoF_(:,2);
