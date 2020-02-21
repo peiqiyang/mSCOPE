@@ -68,7 +68,7 @@ fprintf(fidsi,'%10.2f',meteo.Rin*(rad.fEsuno+rad.fEskyo)');
 fprintf(fidsi,'\r');
 
 fidref           = fopen([Output_dir,'reflectance.dat'],'a');
-reflectance = pi*rad.Lo_./(rad.Esun_+rad.Esky_);
+reflectance = pi*rad.Lo_'./(rad.Esun_+rad.Esky_);
 
 reflectance(spectral.wlS>3000) = NaN;
 fprintf(fidref,'%9.5f',reflectance');
@@ -142,6 +142,10 @@ if options.calc_vert_profiles
         fidfll          = fopen([Output_dir,'layer_fluorescence.dat'],'a');
         fprintf(fidfll,'%9.2f',profiles.fluorescence');       
         fprintf(fidfll,'\r');
+               
+        fidfllem          = fopen([Output_dir,'layer_fluorescenceEm.dat'],'a');
+        fprintf(fidfllem,'%9.2f',profiles.fluorescenceEm');       
+        fprintf(fidfllem,'\r');  
     end
 end
 
