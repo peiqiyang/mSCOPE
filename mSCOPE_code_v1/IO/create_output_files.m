@@ -194,7 +194,8 @@ if options.save_headers
         if options.calc_fluor
             fprintf(fidfll, 'upward fluorescence per layer\r');
             fprintf(fidfll, 'W m^{-2}\r');
-
+            fprintf(fidfllem, 'emitted fluorescence per layer\r');
+            fprintf(fidfllem, 'W m^{-2}\r');
             fprintf(fidNPQ, 'average NPQ = 1-(fm-fo)/(fm0-fo0), per layer \r');
             fprintf(fidNPQ, '\r');
         end
