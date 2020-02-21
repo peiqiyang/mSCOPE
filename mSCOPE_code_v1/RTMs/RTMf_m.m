@@ -255,12 +255,13 @@ for PS = 2:-1:1
     
     for j=1:60          % from top to bottom
         Fmin_(j+1,:)  = Xdd(j,:).*Fmin_(j,:)+Y(j,:);
-        Fplu_(j+1,:)  = R_dd(j+1,:).*Fmin_(j+1,:)+U(j+1,:);
+        Fplu_(j,:)  = R_dd(j,:).*Fmin_(j,:)+U(j,:);
     end 
         piLo1(:,PS)     = iLAI*Pso(1:nl)'*piLs';
         piLo2(:,PS)     = iLAI*(Po(1:nl)-Pso(1:nl))'*piLd';
         piLo3(:,PS)     = iLAI*(Po(1:nl)'*(vb.*Fmin_(layers,:) + vf.*Fplu_(layers,:))); 
-        piLo4(:,PS)     = rs .* Fmin_(61,:)' * Po(61);     
+        piLo4(:,PS)     = rs .* Fmin_(61,:)' * Po(61); 
+        Fhem_(:,PS)     = Fplu_(1,:);  
 end 
 piLtot      = piLo1 + piLo2 + piLo3 + piLo4;
 LoF_        = piLtot/pi;  
@@ -276,6 +277,7 @@ profiles.fluorescenceEm = zeros(nl,1);
 for i = 1:nl
     profiles.fluorescenceEm(i) = 0.001 * Sint(sum(piLem_(:,i,:),3)',spectral.wlF)';
 end
-rad.Eoutf = 0.001 * Sint(sum(Fhem_,1)',spectral.wlF);
+rad.Eoutf = 0.001 * Sint(rad.Fhem_,spectral.wlF);
+
 
 
