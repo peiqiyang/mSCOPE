@@ -330,7 +330,7 @@ for k = 1:telmax
         
         output_data
     end
-    if options.simulation==2 && telmax>1, vi  = count(nvars,vi,vmax,1); end
+    if options.simulation==2 && telmax>1, vi  = count_x(nvars,vi,vmax,1); end
 end
 
 if options.verify
